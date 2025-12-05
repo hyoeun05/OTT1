@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTT 신작 캘린더</title>
+    <style>
+        /* [임시 스타일] 디자인 작업 전 레이아웃을 잡기 위한 기본 CSS */
+        :root {
+            --bg-color: #141414;
+            --text-color: #ffffff;
+            --card-bg: #2f2f2f;
+            --accent-color: #e50914; /* 넷플릭스 레드 계열 */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Pretendard', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 { text-align: center; margin-bottom: 40px; }
+
+        /* 컨테이너 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 그리드 레이아웃 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        /* 카드 스타일 */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        .card:hover { transform: scale(1.05); }
+
+        .card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-info { padding: 15px; }
+        .card-date { color: #aaa; font-size: 0.9rem; margin-bottom: 5px; }
+        .card-ott { 
+            display: inline-block; 
+            background: #000; 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            font-size: 0.8rem; 
+            margin-bottom: 5px;
+        }
+        .card-title { font-size: 1.1rem; font-weight: bold; margin: 0; }
+
+        /* 모달 (팝업) 스타일 */
+        .modal-overlay {
+            display: none; /* 기본 숨김 */
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #222;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            text-align: center;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .modal-poster {
+            width: 150px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .btn-link {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        
+        .btn-link:hover { opacity: 0.8; }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>📅 OTT 신작 캘린더</h1>
+
+        <div class="grid">
+            {% for movie in movies %}
+            <article class="card" 
+                     onclick="openModal(
+                         '{{ movie.title }}', 
+                         '{{ movie.date }}', 
+                         '{{ movie.ott }}', 
+                         '{{ movie.desc }}', 
+                         '{{ movie.poster }}', 
+                         '{{ movie.link }}'
+                     )">
+                
+                <img src="{{ url_for('static', filename=movie.poster) }}" alt="{{ movie.title }} 포스터">
+                
+                <div class="card-info">
+                    <div class="card-date">{{ movie.date }} 공개</div>
+                    <span class="card-ott">{{ movie.ott }}</span>
+                    <h3 class="card-title">{{ movie.title }}</h3>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="modal" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModalBtn()">&times;</span>
+            
+            <img id="m-poster" class="modal-poster" src="" alt="">
+            <h2 id="m-title"></h2>
+            <p id="m-meta" style="color:#aaa; font-size:0.9rem;"></p>
+            <p id="m-desc" style="line-height: 1.6; text-align: left; margin-top: 20px;"></p>
+            
+            <a id="m-link" href="#" target="_blank" class="btn-link">보러 가기 🚀</a>
+        </div>
+    </div>
+
+    <script>
+        // 모달 열기 함수
+        function openModal(title, date, ott, desc, poster, link) {
+            document.getElementById('m-title').innerText = title;
+            document.getElementById('m-meta').innerText = `${ott} | ${date} 공개`;
+            document.getElementById('m-desc').innerText = desc;
+            document.getElementById('m-poster').src = poster;
+            document.getElementById('m-link').href = link;
+            
+            // 모달 보이기
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        // 모달 닫기 (배경 클릭 시)
+        function closeModal(event) {
+            if (event.target === document.getElementById('modal')) {
+                document.getElementById('modal').style.display = 'none';
+            }
+        }
+
+        // 모달 닫기 (X 버튼 클릭 시)
+        function closeModalBtn() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>
