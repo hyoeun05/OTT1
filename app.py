@@ -20,7 +20,7 @@ MOCK_DATA = [
         "date": "2026-01-15",
         "ott": "Disney+",
         "poster": "https://via.placeholder.com/300x450.png?text=Moving+2",
-        "desc": "즈.",
+        "desc": ".",
         "link": "https://www.disneyplus.com"
     },
     {
