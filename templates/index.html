@@ -11,6 +11,7 @@
             --text-color: #ffffff;
             --card-bg: #2f2f2f;
             --accent-color: #e50914; /* 넷플릭스 레드 계열 */
+            --menu-bg: #333333; /* 필터 메뉴 배경색 추가 */
         }
 
         body {
@@ -18,15 +19,53 @@
             color: var(--text-color);
             font-family: 'Pretendard', sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0; /* body padding 제거, navbar와 container에 분배 */
         }
 
-        h1 { text-align: center; margin-bottom: 40px; }
+        h1 { 
+            text-align: center; 
+            margin-bottom: 40px; 
+            padding-top: 20px; /* 제목 상단 여백 추가 */
+        }
+
+        /* --- 필터링을 위한 내비게이션 바 스타일 --- */
+        .navbar {
+            background-color: var(--menu-bg);
+            padding: 10px 0;
+            border-bottom: 1px solid #444;
+            position: sticky; /* 스크롤 시 상단 고정 */
+            top: 0;
+            z-index: 900;
+        }
+        .navbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .navbar a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: background-color 0.2s;
+        }
+        .navbar a:hover {
+            background-color: #555;
+        }
+        .navbar .active a {
+            background-color: var(--accent-color); /* 활성화된 OTT 강조 */
+            font-weight: bold;
+        }
+        /* ------------------------------------- */
 
         /* 컨테이너 */
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 20px; /* 본문 컨텐츠 여백 */
         }
 
         /* 그리드 레이아웃 */
@@ -67,9 +106,9 @@
         }
         .card-title { font-size: 1.1rem; font-weight: bold; margin: 0; }
 
-        /* 모달 (팝업) 스타일 */
+        /* 모달 (팝업) 스타일 - 기존 코드와 동일 */
         .modal-overlay {
-            display: none; /* 기본 숨김 */
+            display: none; 
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
@@ -120,6 +159,21 @@
 </head>
 <body>
 
+    <header class="navbar">
+        <div class="container">
+            <ul>
+                <li class="{% if active_ott == 'all' or active_ott is none %}active{% endif %}">
+                    <a href="{{ url_for('home') }}">전체 보기</a>
+                </li>
+                
+                {% for ott in all_otts %}
+                <li class="{% if active_ott == ott %}active{% endif %}">
+                    <a href="{{ url_for('filter_by_ott', ott_name=ott) }}">{{ ott }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </header>
     <div class="container">
         <h1>📅 OTT 신작 캘린더</h1>
 
@@ -132,7 +186,8 @@
                          '{{ movie.ott }}', 
                          '{{ movie.desc }}', 
                          '{{ movie.poster }}', 
-                         '{{ movie.link }}'
+                         '{{ movie.link }}',
+                         '{{ movie.cast | join() }}'
                      )">
                 
                 <img src="{{ url_for('static', filename=movie.poster) }}" alt="{{ movie.title }} 포스터">
@@ -154,33 +209,53 @@
             <img id="m-poster" class="modal-poster" src="" alt="">
             <h2 id="m-title"></h2>
             <p id="m-meta" style="color:#aaa; font-size:0.9rem;"></p>
-            <p id="m-desc" style="line-height: 1.6; text-align: left; margin-top: 20px;"></p>
+            
+            <p id="m-cast" style="color:#ccc; font-size:0.9rem; margin-bottom: 10px;">출연진: </p> <p id="m-desc" style="line-height: 1.6; text-align: left; margin-top: 20px;"></p>
             
             <a id="m-link" href="#" target="_blank" class="btn-link">보러 가기 🚀</a>
         </div>
     </div>
 
     <script>
-        // 모달 열기 함수
-        function openModal(title, date, ott, desc, poster, link) {
-            document.getElementById('m-title').innerText = title;
-            document.getElementById('m-meta').innerText = `${ott} | ${date} 공개`;
-            document.getElementById('m-desc').innerText = desc;
-            document.getElementById('m-poster').src = poster;
-            document.getElementById('m-link').href = link;
-            
-            // 모달 보이기
-            document.getElementById('modal').style.display = 'flex';
+    
+function openModal(title, date, ott, desc, poster, link, cast) { 
+    // DOM 요소 캐싱
+    const modalElement = document.getElementById('modal');
+    const castElement = document.getElementById('m-cast'); 
+    
+    // --- 1. 필수 정보 설정 ---
+    document.getElementById('m-title').innerText = title;
+    document.getElementById('m-meta').innerText = `${ott} | ${date} 공개`;
+    document.getElementById('m-desc').innerText = desc;
+    document.getElementById('m-poster').src = poster;
+    document.getElementById('m-link').href = link;
+    
+    // 🌟 주연 배우 정보를 표시
+    document.getElementById('m-cast').innerText = `출연진: ${cast}`; 
+    
+    const castString = String(cast || ''); // cast가 null이어도 안전하게 빈 문자열로 변환
+    
+    if (castElement) { // 🌟 요소가 존재하는지 먼저 확인
+        if (castString.trim().length > 0) {
+            castElement.innerText = `출연진: ${castString}`;
+            castElement.style.display = 'block'; 
+        } else {
+            castElement.innerText = '';
+            castElement.style.display = 'none';
         }
-
-        // 모달 닫기 (배경 클릭 시)
+    }
+    
+    // --- 3. 모달 보이기 (마지막에 반드시 실행) ---
+    modalElement.style.display = 'flex';
+}
+        // 모달 닫기 (변동 없음)
         function closeModal(event) {
             if (event.target === document.getElementById('modal')) {
                 document.getElementById('modal').style.display = 'none';
             }
         }
 
-        // 모달 닫기 (X 버튼 클릭 시)
+        // 모달 닫기 (변동 없음)
         function closeModalBtn() {
             document.getElementById('modal').style.display = 'none';
         }
