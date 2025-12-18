@@ -13,7 +13,7 @@ MOCK_DATA = [
         "ott": "Disney+",
         "poster": "areyousure.jpg",
         "cast": "지민, 정국",
-        "desc": "만나기만 하면 시끌벅적한 방탄소년단의 지민, 정국. 이들은 2023년 여름, 군 입대 전 잊지 못할 추억을 남기기 위해 둘만의 여행을 떠난다! 예측 불가 <이게 맞아?!>. 과연, 지민과 정국은 무사히 여행을 마무리 지을 수 있을까?",
+        "desc": "전역 후 다시 떠난, 예고 없이 시작된 지민과 정국의 두 번째 예측불가 우정 여행",
         "link": "https://www.disneyplus.com/ko-kr/browse/entity-a18bfb8e-0435-4795-b321-09a42c2e9e91"
     },
     {
@@ -25,7 +25,8 @@ MOCK_DATA = [
         "desc": "다양한 이유로 이별한 커플들이 한 집에 모여 지나간 연애를 되짚고 새로운 인연을 마주하며 자신만의 사랑을 찾아가는 연애 리얼리티.",
         "link": "https://www.tving.com/contents/E004438927"
     },
- {
+
+     {
         "id": 2,
         "title": "자백의 대가",
         "date": "2025-12-05",
@@ -34,6 +35,16 @@ MOCK_DATA = [
         "cast": "전도연, 김고은, 박해수",
         "desc": "남편을 죽였다는 혐의로 궁지에 몰린 여자. 그녀에게 의문의 여인이 다가와 거래를 제안한다. 그 사건을 대신 자백해 주겠다는 약속. 하지만 그 대가로 누군가의 목숨을 가져와야만 한다.",
         "link": "https://www.netflix.com/kr/title/81757813?fromWatch=true" 
+    },
+    {
+        "id": 6,
+        "title": "이 사랑 통역 되나요?",
+        "date": "2026-01-16",
+        "ott": "Netflix",
+        "poster": "lovetrans.jpg",
+        "cast": "김선호, 고윤정, 후쿠시 소타",
+        "desc": "촬영차 전 세계를 오가는 스타 배우와 그녀의 통역사. 서로를 향한 마음이 깊어지는 것과 달리 설렘의 감정은 자꾸만 오역이 되는데. 과연 둘만의 사랑의 언어를 찾을 수 있을까?",
+        "link": "https://www.netflix.com/kr/title/81697769?preventIntent=true" 
     },
     {
         "id": 3,
@@ -65,6 +76,46 @@ MOCK_DATA = [
         "link": "https://www.netflix.com/kr/title/81028446?fromWatch=true" 
     },
     {
+        "id": 7,
+        "title": "조각도시",
+        "date": "2025-11-05 ~ 2025-12-03 수",
+        "ott": "Disney+",
+        "poster": "jogakdosi.jpg",
+        "cast": "지창욱, 도경수, 김종수, 조윤수, 이광수",
+        "desc": "평범한 삶을 살던 ‘태중’이 어느 날 억울하게 흉악한 범죄에 휘말려 감옥에 가게 되고, 모든 것은 ‘요한’에 의해 계획되었다는 것을 알게 되면서 그를 향한 복수를 실행하는 액션 드라마.",
+        "link": "https://www.disneyplus.com/ko-kr/browse/entity-22e8ccc0-dae8-4171-89ff-342c004e66de?placement=searchEngine&distributionPartner=naver_kr"
+    },
+    {
+        "id": 8,
+        "title": "메이드 인 코리아 시즌 1",
+        "date": "2025-12-24 ~ 2026-01-14 수",
+        "ott": "Disney+",
+        "poster": "madeinkorea.jpg",
+        "cast": "현빈, 정우성, 우도환, 조여정, 서은수, 원지안, 정성일, 강길우, 노재원, 릴리 프랜키, 박용우",
+        "desc": "1970년대 혼란과 도약이 공존했던 대한민국, 부와 권력의 정점에 오르기 위해 낮에는 중앙정보부 요원, 밤에는 위험한 비즈니스 맨으로 이중생활을 영위했던 한 사내와 그를 막아내기 위해 모든 것을 내던진 검사가 시대를 관통하는 거대한 사건과 직면하며 펼쳐지는 이야기.",
+        "link": "https://www.disneyplus.com/ko-kr/browse/entity-5acf7909-5d2f-494e-91a9-2fe0555c220f"
+    },
+    {
+        "id": 10,
+        "title": "빌런즈",
+        "date": "2025-12-18 ~ 2026-01-08 목",
+        "ott": "TVING",
+        "poster": "villains.jpg",
+        "desc": "초정밀 위조지폐 슈퍼노트를 둘러싼 악인들의 피 튀기는 충돌과 대결을 그린 범죄 드라마",
+        "cast": "유지태, 이민정, 이범수, 곽도원",
+        "link": "https://www.tving.com/contents/E004106617" 
+    },
+    {
+        "id": 11,
+        "title": "친애하는 X",
+        "date": "2025-11-06 ~ 2025-12-04 목",
+        "ott": "TVING",
+        "poster": "dearx.jpg",
+        "desc": "지옥에서 벗어나 가장 높은 곳으로 올라가기 위해 가면을 쓴 여자 백아진 그리고 그녀에게 잔혹하게 짓밟힌 X들의 이야기",
+        "cast": "김유정, 김영대, 김도훈, 이열음",
+        "link": "https://www.tving.com/contents/E004454417" 
+    },
+    {
         "id": 6,
         "title": "",
         "date": "2026-02-01",
@@ -73,7 +124,7 @@ MOCK_DATA = [
         "desc": "",
         "link": "https://www.wavve.com",
  
-    }
+    },
 ]
 
 # 사용 가능한 모든 OTT 목록 추출 (중복 제거)
